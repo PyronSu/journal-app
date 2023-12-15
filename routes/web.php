@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/',[CategoryController::class,'home']);
+Route::post('journal/home',[CategoryController::class,'home'])->name('journal#homepage');
+
+Route::post('journal/category',[CategoryController::class,'createCategory'])->name('create#Category');

@@ -9,7 +9,7 @@
     <div class=" col-span-2 py-20 h-screen overflow-auto bg-gray-200">
     <ul class="mx-4">
     @foreach ($categories as $category)
-    <li class="p-2 hover:text-green-700 hover:underline"><i class="fa-solid fa-check-double bg-white text- p-1 rounded-md"></i> <span class="font-semibold">{{$category['category_name']}}</span></li>
+    <li class="p-2 hover:text-green-700 hover:underline"><i class="fa-solid fa-check-double bg-white text- p-1 rounded-md"></i> <span class="font-semibold">{{Str::limit($category['category_name'],17)}}</span></li>
     @endforeach
     <li class="p-2 hover:text-green-700 hover:underline active:text-green-900" onclick="my_modal_5.showModal()"><i class="fa-solid fa-plus bg-white p-1 rounded-md"></i> <span class="font-semibold ">New Category</span></li>
     <li class="p-2 mt-5 hover:text-green-700 hover:underline"><i class="fa-solid bg-white text- p-1 rounded-md fa-gear"></i><span class="font-semibold"> Settings</span></li>

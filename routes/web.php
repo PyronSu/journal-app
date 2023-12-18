@@ -21,3 +21,5 @@ Route::post('journal/home',[CategoryController::class,'home'])->name('journal#ho
 Route::post('journal/category',[CategoryController::class,'createCategory'])->name('create#Category');
 
 Route::get('/journal/create',[JournalController::class,'create'])->name('create#journal');
+Route::post('/journal/save',[JournalController::class,'save'])->name('save#journal');
+Route::get('/journal/read',[JournalController::class,'read'])->name('read#journal');

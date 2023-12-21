@@ -41,11 +41,20 @@
 {{-- first panel end --}}
 
 
-{{-- second panel start --}}
-    <div class="col-span-10 bg-white h-screen overflow-auto  px-5 py-2">
-
-    </div>
-{{-- second panel end --}}
+{{-- third panel start --}}
+<div class="bg-white h-screen overflow-auto col-span-10 px-5 py-2">
+    <div class=" flex justify-between pb-2">
+        <a href="{{route('journal#home')}}"><i class="fa-solid text-xl fa-xmark"></i></a>
+        <span class="text-normal text-gray-500 font-semibold">Thursday, 14 December 2023, 7:17</span>
+        <a href=""><i class="fa-solid text-xl fa-ellipsis-vertical"></i></a>
+    </div><hr>
+    <div class="h-12 flex place-items-center justify-between  px-4">
+        <span class="font-semibold"><i class="fa-solid fa-tag text-lg"></i>Education</span>
+    </div><hr>
+    <div class="text-3xl my-3 font-bold">Exploring different cultures around the world</div>
+    <p class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem repudiandae dolore deserunt libero tempora unde odit eveniet dolor inventore quidem magnam itaque mollitia, necessitatibus temporibus blanditiis laudantium! Consequatur beatae odit blanditiis porro! Assumenda nostrum minus blanditiis ullam quos veniam deleniti? Error aspernatur provident nulla? Sint aliquid commodi eaque necessitatibus enim quisquam veniam sapiente! Non voluptatibus fugiat voluptates nam molestiae sapiente atque, a repellat, facere, corrupti sint quisquam quae in. Omnis officiis, distinctio doloremque blanditiis veniam esse atque delectus cumque nostrum minima at nobis quas sunt neque ipsam iste voluptates eligendi laudantium magnam ea beatae placeat natus? Quaerat officia aperiam quas?     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet suscipit, delectus, aperiam dignissimos necessitatibus voluptate architecto, officiis animi molestiae modi dolorem expedita illo. Tempore sequi quidem recusandae veniam, aut culpa sit sunt? Temporibus accusamus itaque deserunt est iure quisquam perferendis repellat sint, ea doloremque fugit, ad pariatur. Maxime, consequatur sequi! Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, sequi incidunt magnam repellat repellendus vero dolorem beatae doloremque cupiditate, eaque numquam veniam voluptatibus eum quod, doloribus molestias repudiandae quia unde dicta illum! Odit totam doloremque optio. Minima eos necessitatibus voluptatibus reprehenderit nostrum quo perferendis ad perspiciatis blanditiis pariatur consectetur earum cumque ipsa labore unde commodi, exercitationem consequatur corporis dignissimos debitis molestiae. Eos praesentium, in eum consequuntur magni beatae similique obcaecati odio architecto earum maxime culpa voluptatum minus facere laboriosam aperiam quae. Minus odit nulla enim suscipit tempora id voluptatibus ea facilis molestiae deserunt ab optio, illum error doloremque sunt. Ea.</p>
+</div>
+{{-- third panel end --}}
 
 </div>
 {{-- place for main contents end --}}

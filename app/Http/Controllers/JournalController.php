@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Journal;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -19,8 +20,10 @@ class JournalController extends Controller
 
     // save data to DB
     public function save(Request $request){
-        dd($this->getData($request));
-
+        $data = $this->getData($request);
+        Journal::create($data);
+        dd("success");
+        //dd($this->getData($request));
     }
 
     //read journal
@@ -34,16 +37,16 @@ class JournalController extends Controller
     //request data from form and validate
     private function getData($request){
         $validationRules = [
-            'category_id' => 'required',
+            // 'category_id' => 'required',
             'title' => 'required | max:50 | unique:journals,title',
             'journal' => 'required'
         ];
         Validator::make($request->all(),$validationRules)->validate();
-        $data = [
+        return [
             'title' => $request->title,
             'journal' =>$request->journal,
             'category_id' => $request->category_id
         ];
-        return $data;
+
     }
 }

@@ -58,21 +58,21 @@
             <hr>
         {{-- search bar end --}}
 
-        @for ($i=0;$i<5;$i++)
+        @foreach ($journals as $journal)
         {{-- journal list start --}}
             <a href="#" class="flex flex-col items-center mt-2 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
             <div class="flex flex-col justify-between p-3 leading-normal">
-                <span class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">Noteworthy technology acquisitions.....</span>
-                <p class="mb-2 font-normal text- text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order. I love coding, algorithms.....</p>
+                <span class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">{{Str::limit($journal['title'],37,'...')}}</span>
+                <p class="mb-2 font-normal text- text-gray-700 dark:text-gray-400">{{Str::limit($journal['journal'],150,'...')}}</p>
                 <span class="text-sm">9:11</span>
             </div>
-            <div class="border p-3 rounded mr-2">
+            {{-- <div class="border p-3 rounded mr-2">
                 <span>SAT</span>
                 <span>3/12</span>
-            </div>
+            </div> --}}
             </a>
         {{-- journal list end --}}
-        @endfor
+        @endforeach
 
     </div>
 {{-- second panel end --}}

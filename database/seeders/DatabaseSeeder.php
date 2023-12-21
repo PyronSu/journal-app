@@ -23,6 +23,6 @@ class DatabaseSeeder extends Seeder
             'id'=>0,
             'category_name'=>'General'
         ]);
-        // $this->call([CategorySeeder::class]);
+        //
     }
 }

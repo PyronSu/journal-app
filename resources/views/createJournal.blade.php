@@ -92,14 +92,14 @@
                 @error('title')
                     <small class="text-red-600">{{$message}}</small>
                 @enderror
-                <input type="text" name="title" class="text-3xl w-full  font-bold border-none focus:outline-none focus:ring-0  p-2  rounded-md" placeholder="Enter Title">
+                <input type="text" name="title" class="text-3xl w-full  font-bold border-none focus:outline-none focus:ring-0  p-2  rounded-md" placeholder="Enter Title" value="{{old('title')}}">
 
             {{-- write journal title here end --}}
             {{-- write journal content here start --}}
                 @error('journal')
                     <small class="text-red-600">{{$message}}</small>
                 @enderror
-                <textarea id="message" name="journal" rows="4" class="block p-2.5 w-full h-80 overflow-auto text-normal bg-gray-100 rounded-lg border-none focus:ring-0" placeholder="Write your thoughts here..."></textarea>
+                <textarea id="message" name="journal" rows="4" class="block p-2.5 w-full h-80 overflow-auto text-normal bg-gray-100 rounded-lg border-none focus:ring-0" placeholder="Write your thoughts here...">{{old('journal')}}</textarea>
             {{-- write journal content here end --}}
                 <button class="btn btn-success float-right my-3"  name="action" value="save2" type="submit">&nbsp; &nbsp;Save&nbsp;&nbsp; </button>
         </form>

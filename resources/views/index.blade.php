@@ -9,7 +9,7 @@
     <div class=" col-span-2 py-20 h-screen overflow-auto bg-gray-200">
     <ul class="mx-4">
     @foreach ($categories as $category)
-    <li class="p-2 hover:text-green-700 hover:underline tooltip" data-tip="{{$category['category_name']}}"><i class="fa-solid fa-check-double bg-white text- p-1 rounded-md"></i> <span class="font-semibold">{{Str::limit($category['category_name'],17)}}</span></li>
+    <li class="p-2 hover:text-green-700 hover:underline tooltip" data-tip="{{strtolower($category['category_name'])}}"><i class="fa-solid fa-check-double bg-white text- p-1 rounded-md"></i> <span class="font-semibold">{{Str::limit($category['category_name'],17)}}</span></li>
     @endforeach
     <li class="p-2 hover:text-green-700 hover:underline active:text-green-900" onclick="my_modal_5.showModal()"><i class="fa-solid fa-plus bg-white p-1 rounded-md"></i> <span class="font-semibold ">New Category</span></li>
     <li class="p-2 mt-5 hover:text-green-700 hover:underline"><i class="fa-solid bg-white text- p-1 rounded-md fa-gear"></i><span class="font-semibold"> Settings</span></li>
@@ -62,7 +62,9 @@
         {{-- journal list start --}}
             <a href="#" class="flex flex-col items-center mt-2 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
             <div class="flex flex-col justify-between p-3 leading-normal">
-                <span class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">{{Str::limit($journal['title'],37,'...')}}</span>
+                <small onclick="myfun()">{{$journal['id']}}</small>
+                <input type="" id="getID" value={{$journal['id']}}>
+                <span class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">{{Str::limit($journal['title'],37,'...') ?? 'No title'}}</span>
                 <p class="mb-2 font-normal text- text-gray-700 dark:text-gray-400">{{Str::limit($journal['journal'],150,'...')}}</p>
                 <span class="text-sm">9:11</span>
             </div>
@@ -85,16 +87,16 @@
                 <a href=""><i class="fa-solid text-xl fa-ellipsis-vertical"></i></a>
             </div><hr>
             <div class="h-12 flex place-items-center justify-between  px-4">
-                <span class="font-bold text-xl">B</span>
+                {{-- <span class="font-bold text-xl">B</span>
                 <i class="fa-solid fa-underline"></i>
                 <span class="font-bold text-xl">H1</span>
                 <span class="font-bold text-xl">H2</span>
                 <span class="font-bold text-xl text-red-600">H3</span>
                 <i class="fa-solid fa-paperclip"></i>
-                <i class="fa-solid fa-bookmark"></i>
+                <i class="fa-solid fa-bookmark"></i> --}}
             </div><hr>
-            <div class="text-3xl my-3 font-bold">Exploring different cultures around the world</div>
-            <p class="">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem repudiandae dolore deserunt libero tempora unde odit eveniet dolor inventore quidem magnam itaque mollitia, necessitatibus temporibus blanditiis laudantium! Consequatur beatae odit blanditiis porro! Assumenda nostrum minus blanditiis ullam quos veniam deleniti? Error aspernatur provident nulla? Sint aliquid commodi eaque necessitatibus enim quisquam veniam sapiente! Non voluptatibus fugiat voluptates nam molestiae sapiente atque, a repellat, facere, corrupti sint quisquam quae in. Omnis officiis, distinctio doloremque blanditiis veniam esse atque delectus cumque nostrum minima at nobis quas sunt neque ipsam iste voluptates eligendi laudantium magnam ea beatae placeat natus? Quaerat officia aperiam quas?     Lorem ipsum dolor, sit amet consectetur adipisicing elit. Amet suscipit, delectus, aperiam dignissimos necessitatibus voluptate architecto, officiis animi molestiae modi dolorem expedita illo. Tempore sequi quidem recusandae veniam, aut culpa sit sunt? Temporibus accusamus itaque deserunt est iure quisquam perferendis repellat sint, ea doloremque fugit, ad pariatur. Maxime, consequatur sequi! Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, sequi incidunt magnam repellat repellendus vero dolorem beatae doloremque cupiditate, eaque numquam veniam voluptatibus eum quod, doloribus molestias repudiandae quia unde dicta illum! Odit totam doloremque optio. Minima eos necessitatibus voluptatibus reprehenderit nostrum quo perferendis ad perspiciatis blanditiis pariatur consectetur earum cumque ipsa labore unde commodi, exercitationem consequatur corporis dignissimos debitis molestiae. Eos praesentium, in eum consequuntur magni beatae similique obcaecati odio architecto earum maxime culpa voluptatum minus facere laboriosam aperiam quae. Minus odit nulla enim suscipit tempora id voluptatibus ea facilis molestiae deserunt ab optio, illum error doloremque sunt. Ea.</p>
+            <div class="text-3xl my-3 font-bold">{{$journals[0]['title'] ?? 'No title yet'}}</div>
+            <p class="">{{$journals[0]['journal'] ?? 'No journal yet'}}</p>
     </div>
 {{-- third panel end --}}
 
@@ -102,6 +104,12 @@
 {{-- place for main contents end --}}
 
 
+<script>
+    function myfun(){
+        $id=document.getElementById("getID").value;
+        alert("hello" + {{$journals[0]['id'] ?? 'no journal yet'}}+ $id);
+    }
+</script>
 @endsection
 
 

@@ -23,3 +23,7 @@ Route::post('journal/category',[CategoryController::class,'createCategory'])->na
 Route::get('/journal/create',[JournalController::class,'create'])->name('create#journal');
 Route::post('/journal/save',[JournalController::class,'save'])->name('save#journal');
 Route::get('/journal/read',[JournalController::class,'read'])->name('read#journal');
+Route::get('/settings',[CategoryController::class,'setting'])->name('setting#setting');
+
+//cateogry store
+Route::post('store',[CategoryController::class,'store']);

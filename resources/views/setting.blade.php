@@ -10,7 +10,8 @@
     @foreach ($categories as $category)
     <li class="p-2 hover:text-green-700 hover:underline tooltip" data-tip="{{strtolower($category['category_name'])}}" data-category-id="{{$category['id']}}"><i class="fa-solid fa-check-double bg-white text- p-1 rounded-md"></i> <span class="font-semibold">{{Str::limit($category['category_name'],17)}}</span></li><br>
     @endforeach
-    <li class="p-2 hover:text-green-700 hover:underline active:text-green-900" onclick="create()" data-modal-target="default-modal" data-modal-toggle="default-modal"><i class="fa-solid fa-plus bg-white p-1 rounded-md"></i> <span class="font-semibold ">New Category</span></li>
+    {{-- <li class="p-2 hover:text-green-700 hover:underline active:text-green-900" onclick="create()" data-modal-target="default-modal" data-modal-toggle="default-modal"><i class="fa-solid fa-plus bg-white p-1 rounded-md"></i> <span class="font-semibold ">New Category</span></li> --}}
+    <li class="p-2 hover:text-green-700 hover:underline active:text-green-900" onclick="my_modal_5.showModal()"><i class="fa-solid fa-plus bg-white p-1 rounded-md"></i> <span class="font-semibold ">New Category</span></li>
     <li class="p-2 mt-5 hover:text-green-700 hover:underline"><i class="fa-solid bg-white text- p-1 rounded-md fa-gear"></i><span class="font-semibold"> Settings</span></li>
     </ul>
     </div>
@@ -24,7 +25,7 @@
                 <button class="border-none"><i class="fa-solid fa-xmark font-semibold text-xl"></i></button>
                 </form>
             </div>
-            <form action="{{route('create#Category')}}" method="POST">
+            <form action="{{route('create#Category')}}" id="createCategoryForm" method="POST">
                 @csrf
                 <div class="font-semibold mt-3 mb-2">Category ID - {{$category_id}} </div>
                 <div class="font-semibold mt-3 mb-2">Category Name</div>
@@ -67,7 +68,7 @@
                                   <td>{{$category['category_name']}}</td>
                                   <td class="text-center">
                                         <button class="btn" onclick="edit({{$category['id']}})" data-modal-target="default-modal" data-modal-toggle="default-modal"><i class="fa-solid fa-pen"></i></button>
-                                        <button class="btn"><i class="fa-solid fa-trash"></i></button>
+                                        <button class="btn" onclick="delFunc({{$category['id']}})"><i class="fa-solid fa-trash"></i></button>
                                   </td>
                               </tr>
                               @endforeach
@@ -146,9 +147,34 @@ $(document).ready(function(){
         }
     });
   });
+
   function add(){
     my_modal_5.showModal();
   }
+
+  function delFunc(id){
+    if(confirm("Delete Category? ")){
+        var id = id;
+        $.ajax({
+            type: "POST",
+            url: "{{ route('category#delete') }}",
+            data: {id:id},
+            dataType: 'json',
+            success: function(res){
+                console.log('success');
+                // Remove the table row
+                $('#categoryTable tr[data-category-id="' + id + '"]').remove();
+
+                // Remove the list item
+                $('#categoryList li[data-category-id="' + id + '"]').remove();
+            },
+            error: function(){
+                console.log('try again');
+            }
+        });
+    }
+  }
+
   function create(){
     $('#formTitle').html("Create Category");
     $('#labelText').html("Create Category Name: ");
@@ -206,6 +232,41 @@ $(document).ready(function(){
         }
     });
 });
+
+
+// $('#createCategoryForm').submit(function(e){
+//     e.preventDefault();
+//     var formData = new FormData(this);
+//     $.ajax({
+//         type: "POST",
+//         url: "{{ url('journal/category') }}",
+//         data: formData,
+//         cache: false,
+//         contentType: false,
+//         processData: false,
+//         success: (data)=>{
+//             console.log(data);
+//             $('#my_modal_5').hide();
+
+//             var newCategoryItem = '<li class="p-2 hover:text-green-700 hover:underline tooltip"><i class="fa-solid fa-check-double bg-white text- p-1 rounded-md"></i> <span class="font-semibold">'+data.category_name+'</span></li><br>';
+//             $('ul').append(newCategoryItem);
+
+//             var newCategoryRow = '<tr id="categoryRow" data-category-id="' + data.id + '">' +
+//         '<td>' + data.id + '</td>' +
+//         '<td>' + data.category_name + '</td>' +
+//         '<td class="text-center">' +
+//             '<button class="btn" onclick="edit(' + data.id + ')" data-modal-target="default-modal" data-modal-toggle="default-modal"><i class="fa-solid fa-pen"></i></button>' +
+//             '<button class="btn"><i class="fa-solid fa-trash"></i></button>' +
+//         '</td>' +
+//     '</tr>';
+//     $('#categoryTable tbody').append(newCategoryRow);
+
+//             $('#createCategoryForm').trigger('reset');
+//         },
+//         error: function(){console.log("try again");}
+//     });
+// });
+
 
 </script>
 @endsection

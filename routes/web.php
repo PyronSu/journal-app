@@ -27,3 +27,4 @@ Route::get('/settings',[CategoryController::class,'setting'])->name('setting#set
 
 //cateogry store
 Route::post('store',[CategoryController::class,'store']);
+Route::post('/edit-category',[CategoryController::class,'edit'])->name('edit-category');

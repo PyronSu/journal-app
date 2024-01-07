@@ -39,4 +39,11 @@ class CategoryController extends Controller
         );
         return Response()->json($category);
     }
+
+    //category edit
+public function edit(Request $request){
+        $where = array('id'=>$request->id);
+        $categorydata = Category::where($where)->first();
+        return Response()->json(['categorydata'=>$categorydata]);
+    }
 }

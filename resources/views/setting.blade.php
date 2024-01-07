@@ -50,7 +50,7 @@
             {{-- table start --}}
                 <div class="">
                     <div class="" id="test"></div>
-                    <table class="table" id="">
+                    <table class="table" id="categoryTable">
                       <!-- head -->
                       <thead>
                         <tr>
@@ -62,11 +62,11 @@
                       <tbody id="">
                           @if (isset($categories))
                               @foreach ($categories as $category)
-                              <tr id="categoryTable">
+                              <tr id="categoryRow" data-category-id="{{$category['id']}}">
                                   <td>{{$category['id']}}</td>
                                   <td>{{$category['category_name']}}</td>
                                   <td class="text-center">
-                                        <button class="btn" onclick="edit()" data-modal-target="default-modal" data-modal-toggle="default-modal"><i class="fa-solid fa-pen"></i></button>
+                                        <button class="btn" onclick="edit({{$category['id']}})" data-modal-target="default-modal" data-modal-toggle="default-modal"><i class="fa-solid fa-pen"></i></button>
                                         <button class="btn"><i class="fa-solid fa-trash"></i></button>
                                   </td>
                               </tr>
@@ -74,10 +74,7 @@
                           @endif
                       </tbody>
                     </table>
-                    Helo
-                    <div class="dataTest" id="dataTest">
 
-                    </div>
                 </div>
             {{-- table end --}}
 
@@ -155,10 +152,27 @@ $(document).ready(function(){
   function create(){
     $('#formTitle').html("Create Category");
   }
-  function edit(){
+  function edit(id){
     $('#formTitle').html("Edit Category");
+    $.ajax({
+        type: "POST",
+        url: "{{ route('edit-category') }}",
+        data: {id:id},
+        dataType: 'json',
+        success: function(res){
+            console.log(res);
+            $('#id').val(res.categorydata.id);
+            $('#category').val(res.categorydata.category_name);
+           // console.log(res.categorydata.category_name);
+        },
+        error: function (xhr, status, error) {
+    console.error(xhr.responseText);
+    console.error(status);
+    console.error(error);
+}
+    });
   }
-$('#editCategoryForm').submit(function(e){
+  $('#editCategoryForm').submit(function (e) {
     e.preventDefault();
     var formData = new FormData(this);
     $.ajax({
@@ -168,18 +182,22 @@ $('#editCategoryForm').submit(function(e){
         cache: false,
         contentType: false,
         processData: false,
-        success: (data)=>{
+        success: function (data) {
             console.log(data);
             var categoryId = data.id;
             var categoryName = data.category_name;
-            $('#categoryTable').load(location.href + "#categoryTable");
-            //$('#test').text(category_name);
+
+            // Find the corresponding table row and update the content
+            var rowToUpdate = $('#categoryTable tr[data-category-id="' + categoryId + '"]');
+            rowToUpdate.find('td:eq(1)').text(categoryName);
             $('#editCategoryForm').trigger('reset');
         },
-        error: function(data){console.log("try again");
-    }
+        error: function (data) {
+            console.log("Try again");
+        }
     });
 });
+
 </script>
 @endsection
 

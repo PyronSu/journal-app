@@ -8,7 +8,7 @@
     <div class=" col-span-2 py-20 h-screen overflow-auto bg-gray-200">
     <ul class="mx-4" id="categoryList">
     @foreach ($categories as $category)
-    <li class="p-2 hover:text-green-700 hover:underline tooltip" data-tip="{{strtolower($category['category_name'])}}" data-category-id="{{$category['id']}}"><i class="fa-solid fa-check-double bg-white text- p-1 rounded-md"></i> <span class="font-semibold">{{Str::limit($category['category_name'],17)}}</span></li><br>
+    <li class="p-2 block hover:text-green-700 hover:underline tooltip text-start" data-tip="{{strtolower($category['category_name'])}}" data-category-id="{{$category['id']}}"><i class="fa-solid fa-check-double bg-white text- p-1 rounded-md"></i> <span class="font-semibold">{{Str::limit($category['category_name'],17)}}</span></li>
     @endforeach
     {{-- <li class="p-2 hover:text-green-700 hover:underline active:text-green-900" onclick="create()" data-modal-target="default-modal" data-modal-toggle="default-modal"><i class="fa-solid fa-plus bg-white p-1 rounded-md"></i> <span class="font-semibold ">New Category</span></li> --}}
     <li class="p-2 hover:text-green-700 hover:underline active:text-green-900" onclick="my_modal_5.showModal()"><i class="fa-solid fa-plus bg-white p-1 rounded-md"></i> <span class="font-semibold ">New Category</span></li>
@@ -167,6 +167,8 @@ $(document).ready(function(){
 
                 // Remove the list item
                 $('#categoryList li[data-category-id="' + id + '"]').remove();
+
+                $('#categoryList li').removeClass('mb-2');
             },
             error: function(){
                 console.log('try again');

@@ -67,7 +67,7 @@
                                   <td>{{$category['id']}}</td>
                                   <td>{{$category['category_name']}}</td>
                                   <td class="text-center">
-                                        <button class="btn" onclick="edit({{$category['id']}})" data-modal-target="default-modal" data-modal-toggle="default-modal"><i class="fa-solid fa-pen"></i></button>
+                                        <button class="btn" onclick="edit({{$category['id']}})" @if($category['id']!= 1) data-modal-target="default-modal" data-modal-toggle="default-modal"@endif><i class="fa-solid fa-pen"></i></button>
                                         <button class="btn" onclick="delFunc({{$category['id']}})"><i class="fa-solid fa-trash"></i></button>
                                   </td>
                               </tr>
@@ -153,9 +153,9 @@ $(document).ready(function(){
   }
 
   function delFunc(id){
-    if(confirm("Delete Category? ")){
-        var id = id;
-        $.ajax({
+    if(id !==1 && confirm("Delete Category?")){
+            var id = id;
+            $.ajax({
             type: "POST",
             url: "{{ route('category#delete') }}",
             data: {id:id},
@@ -172,7 +172,7 @@ $(document).ready(function(){
                 console.log('try again');
             }
         });
-    }
+        }
   }
 
   function create(){
@@ -183,7 +183,7 @@ $(document).ready(function(){
   function edit(id){
     $('#formTitle').html("Edit Category");
     $('#labelText').html("Edit Category Name: ");
-    $.ajax({
+        $.ajax({
         type: "POST",
         url: "{{ route('edit-category') }}",
         data: {id:id},
@@ -198,7 +198,7 @@ $(document).ready(function(){
     console.error(xhr.responseText);
     console.error(status);
     console.error(error);
-}
+    }
     });
   }
   $('#editCategoryForm').submit(function (e) {

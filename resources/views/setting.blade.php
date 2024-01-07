@@ -118,7 +118,7 @@
                                 <div class="p-4 md:p-5 space-y-4 h-40">
                                     <form action="javascript:void(0)" id="editCategoryForm" method="POST">
                                         <input type="hidden" id="id" name="id">
-                                        <div class="font-semibold">Edit Category Name: </div>
+                                        <div class="font-semibold" id="labelText">Edit Category Name: </div>
                                         <input type="text" name="category" id="category" class="input input-bordered my-2 w-full">
                                         <button type="submit" class="btn float-right" data-modal-hide="default-modal">Submit</button>
                                     </form>
@@ -151,9 +151,12 @@ $(document).ready(function(){
   }
   function create(){
     $('#formTitle').html("Create Category");
+    $('#labelText').html("Create Category Name: ");
+    $('#editCategoryForm').trigger('reset');
   }
   function edit(id){
     $('#formTitle').html("Edit Category");
+    $('#labelText').html("Edit Category Name: ");
     $.ajax({
         type: "POST",
         url: "{{ route('edit-category') }}",

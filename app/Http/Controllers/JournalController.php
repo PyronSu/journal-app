@@ -22,8 +22,9 @@ class JournalController extends Controller
     public function save(Request $request){
         $data = $this->getData($request);
         Journal::create($data);
-        dd("success");
+        //dd("success");
         //dd($this->getData($request));
+        return redirect()->route('journal#home');
     }
 
     //read journal
@@ -32,6 +33,13 @@ class JournalController extends Controller
         $category_id = Category::latest('id')->value('id')+1;
         $currentTime = Carbon::now();
         return view('readJournal',compact('categories','category_id','currentTime'));
+    }
+
+    //get journal to show on the page
+    public function getJournals(Request $req){
+        $where = array('id'=>$req->id);
+        $journal = Journal::where($where)->first();
+        return Response()->json($journal);
     }
 
     //request data from form and validate

@@ -17,6 +17,7 @@ use App\Http\Controllers\CategoryController;
 
 Route::get('/',[CategoryController::class,'home'])->name('journal#home');
 Route::post('journal/home',[CategoryController::class,'home'])->name('journal#homepage');
+Route::post('/get/journal',[JournalController::class,'getJournals']);
 
 Route::post('journal/category',[CategoryController::class,'createCategory'])->name('create#Category');
 

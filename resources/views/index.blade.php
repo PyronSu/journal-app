@@ -12,7 +12,7 @@
     <li class="p-2 hover:text-green-700 hover:underline tooltip" data-tip="{{strtolower($category['category_name'])}}"><i class="fa-solid fa-check-double bg-white text- p-1 rounded-md"></i> <span class="font-semibold">{{Str::limit($category['category_name'],17)}}</span></li><br>
     @endforeach
     <li class="p-2 hover:text-green-700 hover:underline active:text-green-900" onclick="my_modal_5.showModal()"><i class="fa-solid fa-plus bg-white p-1 rounded-md"></i> <span class="font-semibold ">New Category</span></li>
-    <li class="p-2 mt-5 hover:text-green-700 hover:underline"><i class="fa-solid bg-white text- p-1 rounded-md fa-gear"></i><span class="font-semibold"> Settings</span></li>
+    <a href="{{route('setting#setting')}}"><li class="p-2 mt-5 hover:text-green-700 hover:underline"><i class="fa-solid bg-white text- p-1 rounded-md fa-gear"></i><span class="font-semibold"> Settings</span></li></a>
     </ul>
     </div>
 
@@ -60,10 +60,10 @@
 
         @foreach ($journals as $journal)
         {{-- journal list start --}}
-            <a href="#" class="flex flex-col items-center mt-2 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-            <div class="flex flex-col justify-between p-3 leading-normal">
+            <form method="post" href="javascript:void(0)" onclick="showFunc({{$journal['id']}})" class="flex flex-col items-center mt-2 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+            <div class="flex flex-col justify-between p-3 leading-normal" >
                 <small onclick="myfun()">{{$journal['id']}}</small>
-                <input type="" id="getID" value={{$journal['id']}}>
+                <input type="hidden" id="id" name="id" value={{$journal['id']}}>
                 <span class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">{{Str::limit($journal['title'],37,'...') ?? 'No title'}}</span>
                 <p class="mb-2 font-normal text- text-gray-700 dark:text-gray-400">{{Str::limit($journal['journal'],150,'...')}}</p>
                 <span class="text-sm">9:11</span>
@@ -72,7 +72,7 @@
                 <span>SAT</span>
                 <span>3/12</span>
             </div> --}}
-            </a>
+        </form>
         {{-- journal list end --}}
         @endforeach
 
@@ -83,7 +83,7 @@
     <div class="bg-white h-screen overflow-auto col-span-6 px-5 py-2">
             <div class=" flex justify-between pb-2">
                 <a href=""><i class="fa-solid text-xl fa-xmark"></i></a>
-                <span class="text-normal text-gray-500 font-semibold">Thursday, 14 December 2023, 7:17</span>
+                <span class="text-normal text-gray-500 font-semibold" id="journalTime">Thursday, 14 December 2023, 7:17</span>
                 <a href=""><i class="fa-solid text-xl fa-ellipsis-vertical"></i></a>
             </div><hr>
             <div class="h-12 flex place-items-center justify-between  px-4">
@@ -95,8 +95,8 @@
                 <i class="fa-solid fa-paperclip"></i>
                 <i class="fa-solid fa-bookmark"></i> --}}
             </div><hr>
-            <div class="text-3xl my-3 font-bold">{{$journals[0]['title'] ?? 'No title yet'}}</div>
-            <p class="">{{$journals[0]['journal'] ?? 'No journal yet'}}</p>
+            <div class="text-3xl my-3 font-bold" id="journalTitle">{{$journals[0]['title'] ?? 'No title yet'}}</div>
+            <p class="" id="journalContent">{{$journals[0]['journal'] ?? 'No journal yet'}}</p>
     </div>
 {{-- third panel end --}}
 
@@ -104,10 +104,35 @@
 {{-- place for main contents end --}}
 
 
-<script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.ajaxSetup({
+            headers: {
+                'x-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    });
+
     function myfun(){
         $id=document.getElementById("getID").value;
         alert("hello" + {{$journals[0]['id'] ?? 'no journal yet'}}+ $id);
+    }
+    function showFunc(id){
+       $.ajax({
+        type: "POST",
+        url: "{{ url('get/journal') }}",
+        data: {id:id},
+        dataType: 'json',
+        success: function(res){
+            console.log(res);
+            $('#journalTitle').html(res.title);
+            $('#journalContent').html(res.journal);
+            $('#journalTime').html(res.created_at);
+        },
+        error: function(){
+            console.log('try again');
+        }
+       });
     }
 </script>
 @endsection

@@ -24,7 +24,7 @@ class JournalController extends Controller
         Journal::create($data);
         //dd("success");
         //dd($this->getData($request));
-        return redirect()->route('journal#home');
+        return redirect()->route('journal#home')->with(['insertSuccess'=>"A new journal added successfully."]);
     }
 
     //read journal
@@ -46,7 +46,7 @@ class JournalController extends Controller
     private function getData($request){
         $validationRules = [
             // 'category_id' => 'required',
-            'title' => 'required | max:50 | unique:journals,title',
+            'title' => 'required | max:50 | unique:journals,title,NULL,id,category_id,'.$request->input('category_id'),
             'journal' => 'required'
         ];
         Validator::make($request->all(),$validationRules)->validate();

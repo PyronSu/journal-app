@@ -8,6 +8,7 @@
 {{-- first panel start --}}
     <div class=" col-span-2 py-20 h-screen overflow-auto bg-gray-200">
     <ul class="mx-4">
+    <a href="{{route('create#journal')}}"><li class=" mb-3 bg-slate-300 border rounded-lg p-3 hover:text-green-700 hover:bg-slate-400 active:text-green-900"><i class="fa-solid fa-plus bg-white p-1 rounded-md"></i> <span class="font-semibold ">New Journal</span></li></a>
     @foreach ($categories as $category)
     <li class="p-2 hover:text-green-700 hover:underline tooltip" data-tip="{{strtolower($category['category_name'])}}"><i class="fa-solid fa-check-double bg-white text- p-1 rounded-md"></i> <span class="font-semibold">{{Str::limit($category['category_name'],17)}}</span></li><br>
     @endforeach
@@ -58,15 +59,21 @@
             <hr>
         {{-- search bar end --}}
 
+        {{-- show alert here after successful creation of journal start--}}
+        @if(session('insertSuccess'))
+        Hello
+        @endif
+        {{-- show alert here after successful creation of journal end--}}
+
         @foreach ($journals as $journal)
         {{-- journal list start --}}
             <form method="post" href="javascript:void(0)" onclick="showFunc({{$journal['id']}})" class="flex flex-col items-center mt-2 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
             <div class="flex flex-col justify-between p-3 leading-normal" >
-                <small onclick="myfun()">{{$journal['id']}}</small>
                 <input type="hidden" id="id" name="id" value={{$journal['id']}}>
                 <span class="mb-1 text-lg font-bold tracking-tight text-gray-900 dark:text-white">{{Str::limit($journal['title'],37,'...') ?? 'No title'}}</span>
                 <p class="mb-2 font-normal text- text-gray-700 dark:text-gray-400">{{Str::limit($journal['journal'],150,'...')}}</p>
-                <span class="text-sm">9:11</span>
+            <span class="text-sm">{{ \Carbon\Carbon::parse($journal['created_at'])->format('F j, Y') }}
+            </span>
             </div>
             {{-- <div class="border p-3 rounded mr-2">
                 <span>SAT</span>
@@ -83,8 +90,31 @@
     <div class="bg-white h-screen overflow-auto col-span-6 px-5 py-2">
             <div class=" flex justify-between pb-2">
                 <a href=""><i class="fa-solid text-xl fa-xmark"></i></a>
-                <span class="text-normal text-gray-500 font-semibold" id="journalTime">Thursday, 14 December 2023, 7:17</span>
-                <a href=""><i class="fa-solid text-xl fa-ellipsis-vertical"></i></a>
+                <span class="text-normal text-gray-500 font-semibold" id="journalTime">@php
+                    use Carbon\Carbon;
+                    $originalData = Carbon::parse($journals[0]['created_at']);
+                    $formattedData = $originalData->format('F j, Y g:i:s A');
+                    echo $formattedData;
+                @endphp</span>
+                <button href="" class="dropdown" id="dropdownDefaultButton" data-dropdown-toggle="dropdown"><i class="fa-solid text-xl fa-ellipsis-vertical"></i></button>
+                    <!-- Dropdown menu -->
+                    <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                          <li>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                          </li>
+                          <li>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
+                          </li>
+                          <li>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+                          </li>
+                          <li>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
+                          </li>
+                        </ul>
+                    </div>
+
             </div><hr>
             <div class="h-12 flex place-items-center justify-between  px-4">
                 {{-- <span class="font-bold text-xl">B</span>
@@ -97,6 +127,9 @@
             </div><hr>
             <div class="text-3xl my-3 font-bold" id="journalTitle">{{$journals[0]['title'] ?? 'No title yet'}}</div>
             <p class="" id="journalContent">{{$journals[0]['journal'] ?? 'No journal yet'}}</p>
+
+
+
     </div>
 {{-- third panel end --}}
 
@@ -127,7 +160,16 @@
             console.log(res);
             $('#journalTitle').html(res.title);
             $('#journalContent').html(res.journal);
-            $('#journalTime').html(res.created_at);
+            const formattedTime = new Date(res.created_at).toLocaleString('en-US',{
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric',
+                hour12: true
+            });
+            $('#journalTime').html(formattedTime);
         },
         error: function(){
             console.log('try again');

@@ -65,6 +65,7 @@
         @endif
         {{-- show alert here after successful creation of journal end--}}
 
+        @if(count($journals)>0)
         @foreach ($journals as $journal)
         {{-- journal list start --}}
             <form method="post" href="javascript:void(0)" onclick="showFunc({{$journal['id']}})" class="flex flex-col items-center mt-2 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
@@ -82,20 +83,26 @@
         </form>
         {{-- journal list end --}}
         @endforeach
+        @else
+        <p>No journals found.</p>
+        @endif
+        
 
     </div>
 {{-- second panel end --}}
 
 {{-- third panel start --}}
+@if(count($journals)>0)
     <div class="bg-white h-screen overflow-auto col-span-6 px-5 py-2">
             <div class=" flex justify-between pb-2">
                 <a href=""><i class="fa-solid text-xl fa-xmark"></i></a>
-                <span class="text-normal text-gray-500 font-semibold" id="journalTime">@php
-                    use Carbon\Carbon;
-                    $originalData = Carbon::parse($journals[0]['created_at']);
+                <span class="text-normal text-gray-500 font-semibold" id="journalTime">
+                    <?php
+                    $originalData = Carbon\Carbon::parse($journals[0]['created_at']);
                     $formattedData = $originalData->format('F j, Y g:i:s A');
                     echo $formattedData;
-                @endphp</span>
+                ?>
+                </span>
                 <button href="" class="dropdown" id="dropdownDefaultButton" data-dropdown-toggle="dropdown"><i class="fa-solid text-xl fa-ellipsis-vertical"></i></button>
                     <!-- Dropdown menu -->
                     <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
@@ -131,7 +138,10 @@
 
 
     </div>
+@else
+@endif
 {{-- third panel end --}}
+
 
 </div>
 {{-- place for main contents end --}}
